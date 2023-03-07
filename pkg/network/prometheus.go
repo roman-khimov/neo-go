@@ -49,6 +49,14 @@ var (
 			Namespace: "neogo",
 		},
 	)
+
+	blockSyncQueueLength = prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Help:      "Block state sync queue length",
+			Name:      "block_sync_queue_length",
+			Namespace: "neogo",
+		},
+	)
 	p2pCmds = make(map[CommandType]prometheus.Histogram)
 )
 
@@ -59,6 +67,7 @@ func init() {
 		servAndNodeVersion,
 		poolCount,
 		blockQueueLength,
+		blockSyncQueueLength,
 	)
 	for _, cmd := range []CommandType{CMDVersion, CMDVerack, CMDGetAddr,
 		CMDAddr, CMDPing, CMDPong, CMDGetHeaders, CMDHeaders, CMDGetBlocks,
@@ -83,6 +92,10 @@ func updateNetworkSizeMetric(sz int) {
 
 func updateBlockQueueLenMetric(bqLen int) {
 	blockQueueLength.Set(float64(bqLen))
+}
+
+func updateBlockSyncQueueLenMetric(bqLen int) {
+	blockSyncQueueLength.Set(float64(bqLen))
 }
 
 func updatePoolCountMetric(pCount int) {

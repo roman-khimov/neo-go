@@ -209,7 +209,7 @@ func newServerFromConstructors(config ServerConfig, chain Ledger, stSync StateSy
 		s.tryStartServices()
 	}, updateBlockQueueLenMetric)
 
-	s.bSyncQueue = bqueue.New(s.stateSync, log, nil, updateBlockQueueLenMetric)
+	s.bSyncQueue = bqueue.New(s.stateSync, log, nil, updateBlockSyncQueueLenMetric)
 
 	if s.MinPeers < 0 {
 		s.log.Info("bad MinPeers configured, using the default value",
