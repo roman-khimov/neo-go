@@ -86,6 +86,13 @@ type (
 		Shutdown()
 	}
 
+	// BlockQueuer is an abstraction of the block queue that is completely
+	// managed by server (including queue runs and discards). The interface
+	// exposes a single method sufficient for the subsequent block enqueueing.
+	BlockQueuer interface {
+		PutBlock(*block.Block) error
+	}
+
 	// Server represents the local Node in the network. Its transport could
 	// be of any kind.
 	Server struct {
@@ -322,6 +329,11 @@ func (s *Server) AddService(svc Service) {
 // addService is an unlocked version of AddService.
 func (s *Server) addService(svc Service) {
 	s.services[svc.Name()] = svc
+}
+
+// GetBlockQueue returns the block queue instance managed by Server.
+func (s *Server) GetBlockQueue() BlockQueuer {
+	return s.bQueue
 }
 
 // AddExtensibleService register a service that handles an extensible payload of some kind.
