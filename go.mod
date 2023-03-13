@@ -61,3 +61,5 @@ require (
 )
 
 go 1.17
+
+replace github.com/nspcc-dev/dbft v0.0.0-20221020093431-31c1bbdc74f2 => github.com/roman-khimov/dbft v0.0.0-20230313082719-b769eb3e0f07
